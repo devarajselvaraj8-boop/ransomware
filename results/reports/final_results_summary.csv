@@ -1,0 +1,20 @@
+Section,Model,Metric,Measured Value
+A. Static Classification (16 Features),Random Forest,Accuracy,100.0%
+A. Static Classification (16 Features),Random Forest,Balanced Accuracy,1.0000
+A. Static Classification (16 Features),Random Forest,Macro F1,1.0000
+A. Static Classification (16 Features),Random Forest,Class L Recall,100.0% (33/33)
+A. Static Classification (16 Features),XGBoost,Accuracy,100.0%
+A. Static Classification (16 Features),XGBoost,Balanced Accuracy,1.0000
+A. Static Classification (16 Features),XGBoost,Macro F1,1.0000
+A. Static Classification (16 Features),XGBoost,Class L Recall,100.0% (33/33)
+B. Sequential Decision Policy (16 Features),PPO Policy,Mean Episode Reward,20.00
+B. Sequential Decision Policy (16 Features),PPO Policy,Ransomware Alert Rate,100.0% (350/350)
+B. Sequential Decision Policy (16 Features),PPO Policy,False Alert Rate,0.0%
+B. Sequential Decision Policy (16 Features),PPO Policy,Missed Ransomware Rate,0.0%
+B. Sequential Decision Policy (16 Features),PPO Policy,Mean Synthetic Alert Step,Step 0.00 (Synthetic)
+C. Feature Reduction Progression,Random Forest,46 Features -> Macro F1,1.0000
+C. Feature Reduction Progression,Random Forest,24 Features -> Macro F1,0.9979
+C. Feature Reduction Progression,Random Forest,16 Features -> Macro F1,1.0000
+C. Feature Reduction Progression,XGBoost,46 Features -> Macro F1,1.0000
+C. Feature Reduction Progression,XGBoost,24 Features -> Macro F1,1.0000
+C. Feature Reduction Progression,XGBoost,16 Features -> Macro F1,1.0000

@@ -1,0 +1,24 @@
+{
+    "environment": "TemporalRansomwareEnv",
+    "action_space": [
+        "0: CONTINUE_MONITORING",
+        "1: SUSPICIOUS",
+        "2: RANSOMWARE_ALERT"
+    ],
+    "reward_config": {
+        "alert_true_positive": 10.0,
+        "early_detection_bonus_factor": 2.5,
+        "alert_false_positive": -10.0,
+        "monitoring_cost": -0.1,
+        "suspicious_ransomware_reward": 0.5,
+        "suspicious_benign_penalty": -0.5,
+        "final_missed_ransomware_penalty": -15.0,
+        "final_benign_true_negative_reward": 5.0
+    },
+    "n_test_samples": 2,
+    "correct_alert_rate": 1.0,
+    "false_alert_rate": 0.0,
+    "miss_rate": 0.0,
+    "average_decision_window": 3.5,
+    "average_episode_reward": 8.95
+}

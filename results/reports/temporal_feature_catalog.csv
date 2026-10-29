@@ -1,0 +1,72 @@
+Feature Name,Category,Data Type,Formula / Calculation,Causal Guarantee
+sample_id,Raw Telemetry,object,Direct sensor measurement,Observation Timestamp
+process_id,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+parent_process_id,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+timestamp_us,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+relative_time_ms,Raw Telemetry,float64,Direct sensor measurement,Observation Timestamp
+observation_window,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+process_name,Raw Telemetry,object,Direct sensor measurement,Observation Timestamp
+process_path,Raw Telemetry,object,Direct sensor measurement,Observation Timestamp
+label,Raw Telemetry,object,Direct sensor measurement,Observation Timestamp
+family,Raw Telemetry,object,Direct sensor measurement,Observation Timestamp
+api_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+api_rate,Raw Telemetry,float64,Direct sensor measurement,Observation Timestamp
+dll_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+dll_load_rate,Raw Telemetry,float64,Direct sensor measurement,Observation Timestamp
+registry_read_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+registry_write_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+file_read_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+file_write_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+file_create_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+directory_activity_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+entropy,Raw Telemetry,float64,Direct sensor measurement,Observation Timestamp
+memory_snapshot_id,Raw Telemetry,object,Direct sensor measurement,Observation Timestamp
+working_set_bytes,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+private_bytes,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+handle_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+thread_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+network_connection_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+loaded_module_count,Raw Telemetry,int64,Direct sensor measurement,Observation Timestamp
+entropy_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+working_set_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+private_bytes_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+handle_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+thread_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+network_connection_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+loaded_modules_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+api_count_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+file_write_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+file_read_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+registry_write_delta,Temporal Delta,float64,x[t] - x[t-1] (grouped by sample),Strictly Causal (<= t)
+working_set_rate_bytes_per_sec,Temporal Rate,float64,delta[t] / delta_t (units/sec),Strictly Causal (<= t)
+private_bytes_rate_bytes_per_sec,Temporal Rate,float64,delta[t] / delta_t (units/sec),Strictly Causal (<= t)
+file_write_rate,Temporal Rate,float64,delta[t] / delta_t (units/sec),Strictly Causal (<= t)
+cumulative_api_count,Cumulative Accumulation,int64,cumsum(x[0...t]),Strictly Causal (<= t)
+cumulative_registry_writes,Cumulative Accumulation,int64,cumsum(x[0...t]),Strictly Causal (<= t)
+cumulative_file_writes,Cumulative Accumulation,int64,cumsum(x[0...t]),Strictly Causal (<= t)
+cumulative_directory_activity,Cumulative Accumulation,int64,cumsum(x[0...t]),Strictly Causal (<= t)
+private_to_working_set_ratio,Memory Dynamic Ratio,float64,private_bytes / working_set_bytes,Strictly Causal (<= t)
+entropy_rolling_mean_3,Causal Rolling Statistic,float64,"rolling_mean(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+entropy_rolling_std_3,Causal Rolling Statistic,float64,"rolling_std(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+entropy_rolling_min_3,Causal Rolling Statistic,float64,"rolling_min(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+entropy_rolling_max_3,Causal Rolling Statistic,float64,"rolling_max(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+working_set_bytes_rolling_mean_3,Causal Rolling Statistic,float64,"rolling_mean(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+working_set_bytes_rolling_std_3,Causal Rolling Statistic,float64,"rolling_std(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+working_set_bytes_rolling_min_3,Causal Rolling Statistic,float64,"rolling_min(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+working_set_bytes_rolling_max_3,Causal Rolling Statistic,float64,"rolling_max(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+private_bytes_rolling_mean_3,Causal Rolling Statistic,float64,"rolling_mean(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+private_bytes_rolling_std_3,Causal Rolling Statistic,float64,"rolling_std(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+private_bytes_rolling_min_3,Causal Rolling Statistic,float64,"rolling_min(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+private_bytes_rolling_max_3,Causal Rolling Statistic,float64,"rolling_max(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+handle_count_rolling_mean_3,Causal Rolling Statistic,float64,"rolling_mean(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+handle_count_rolling_std_3,Causal Rolling Statistic,float64,"rolling_std(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+handle_count_rolling_min_3,Causal Rolling Statistic,float64,"rolling_min(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+handle_count_rolling_max_3,Causal Rolling Statistic,float64,"rolling_max(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+api_count_rolling_mean_3,Causal Rolling Statistic,float64,"rolling_mean(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+api_count_rolling_std_3,Causal Rolling Statistic,float64,"rolling_std(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+api_count_rolling_min_3,Causal Rolling Statistic,float64,"rolling_min(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+api_count_rolling_max_3,Causal Rolling Statistic,float64,"rolling_max(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+file_write_count_rolling_mean_3,Causal Rolling Statistic,float64,"rolling_mean(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+file_write_count_rolling_std_3,Causal Rolling Statistic,float64,"rolling_std(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+file_write_count_rolling_min_3,Causal Rolling Statistic,float64,"rolling_min(window=3, min_periods=1, causal)",Strictly Causal (<= t)
+file_write_count_rolling_max_3,Causal Rolling Statistic,float64,"rolling_max(window=3, min_periods=1, causal)",Strictly Causal (<= t)

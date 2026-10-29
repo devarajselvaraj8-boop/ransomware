@@ -1,0 +1,18 @@
+[
+    "apistats",
+    "dll",
+    "dll_loaded",
+    "arguments",
+    "command_line",
+    "proc",
+    "proc_pid",
+    "type",
+    "program",
+    "children",
+    "tree_command_line",
+    "regkey_opened",
+    "regkey_read",
+    "regkey_written",
+    "wmi_query",
+    "entropy"
+]

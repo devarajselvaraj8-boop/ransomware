@@ -1,0 +1,4 @@
+class,number_of_episodes,correct_decisions,ransomware_alerts,false_alerts,missed_cases,average_reward,average_episode_length,average_alert_step
+G,164,164,164,0,0,20.0,1.0,0.0
+E,153,153,153,0,0,20.0,1.0,0.0
+L,33,33,33,0,0,20.0,1.0,0.0

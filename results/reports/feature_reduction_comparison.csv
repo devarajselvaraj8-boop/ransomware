@@ -1,0 +1,4 @@
+Feature Set,Feature Count,RF Macro F1,XGBoost Macro F1,RF L Recall,XGBoost L Recall
+Full Feature Baseline,46,1.0,1.0,1.0,1.0
+Early-Stage Proxy (Raw),24,0.9979,1.0,1.0,1.0
+Early-Stage Non-Redundant,16,1.0,1.0,1.0,1.0

@@ -1,0 +1,29 @@
+Column,Type,Description,Required?,Temporal?,Memory-derived?
+sample_id,string,Unique session UUID for the sample execution run,True,False,False
+process_id,int64,Operating system process ID (PID),True,False,False
+parent_process_id,int64,Parent process ID (PPID) in the process tree,True,False,False
+timestamp_us,int64,Microsecond epoch timestamp of observation window close,True,True,False
+relative_time_ms,float64,Elapsed execution time in milliseconds from process start,True,True,False
+observation_window,int32,"Sequential window index (0, 1, 2, ...)",True,True,False
+process_name,string,Name of the executing binary image (e.g. svchost.exe),True,False,False
+process_path,string,Full execution path on disk,False,False,False
+label,string,Binary label: benign or ransomware,True,False,False
+family,string,Specific malware family or benign baseline profile,True,False,False
+api_count,int32,Total API invocations in current window,True,True,False
+api_rate,float64,API calls per millisecond in window,True,True,False
+dll_count,int32,Count of newly loaded DLL modules in window,True,True,False
+dll_load_rate,float64,DLL loads per second,True,True,False
+registry_read_count,int32,Registry key query and open count in window,True,True,False
+registry_write_count,int32,Registry value modifications and key creations in window,True,True,False
+file_read_count,int32,File system read operations in window,True,True,False
+file_write_count,int32,File system write/modify operations in window,True,True,False
+file_create_count,int32,New files created in window,True,True,False
+directory_activity_count,int32,Directory enumeration and walk operations,True,True,False
+entropy,float64,Average Shannon entropy of written file buffers and memory pages,True,True,True
+memory_snapshot_id,string,Unique identifier for the associated volatile memory dump,False,True,True
+working_set_bytes,int64,Current process physical working set size in bytes,True,True,True
+private_bytes,int64,Committed private memory allocation in bytes,True,True,True
+handle_count,int32,"Total open kernel object handles (files, keys, mutexes)",True,True,True
+thread_count,int32,Number of active threads in the process,True,True,True
+network_connection_count,int32,Active TCP/UDP sockets associated with PID,True,True,False
+loaded_module_count,int32,Total count of DLL modules mapped in process space,True,True,True

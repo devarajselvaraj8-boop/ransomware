@@ -1,0 +1,66 @@
+================================================================================
+BASELINE MODEL COMPARISON & ERROR DYNAMICS REPORT
+================================================================================
+
+1. SUMMARY PERFORMANCE METRICS TABLE
+--------------------------------------------------------------------------------
+        model  accuracy  precision  recall  f1_weighted  f1_macro  balanced_accuracy
+Random Forest       1.0        1.0     1.0          1.0       1.0                1.0
+      XGBoost       1.0        1.0     1.0          1.0       1.0                1.0
+
+================================================================================
+2. DETAILED MINORITY CLASS (L-CLASS) & ERROR ANALYSIS
+--------------------------------------------------------------------------------
+
+MODEL: [Random Forest]
+----------------------------------------
+Per-Class Metric Breakdown:
+  - Class 'E' (n=153): Precision=1.0000, Recall=1.0000, F1-Score=1.0000
+  - Class 'G' (n=164): Precision=1.0000, Recall=1.0000, F1-Score=1.0000
+  - Class 'L' (n=33): Precision=1.0000, Recall=1.0000, F1-Score=1.0000
+
+Error Matrix Decomposition (FP / FN):
+  - Class 'E': True Positives=153, False Negatives=0, False Positives=0
+  - Class 'G': True Positives=164, False Negatives=0, False Positives=0
+  - Class 'L': True Positives=33, False Negatives=0, False Positives=0
+Total Misclassifications : 0
+Confusion Matrix (Rows=True, Cols=Pred, Order=['E', 'G', 'L']):
+[[153   0   0]
+ [  0 164   0]
+ [  0   0  33]]
+
+MODEL: [XGBoost]
+----------------------------------------
+Per-Class Metric Breakdown:
+  - Class 'E' (n=153): Precision=1.0000, Recall=1.0000, F1-Score=1.0000
+  - Class 'G' (n=164): Precision=1.0000, Recall=1.0000, F1-Score=1.0000
+  - Class 'L' (n=33): Precision=1.0000, Recall=1.0000, F1-Score=1.0000
+
+Error Matrix Decomposition (FP / FN):
+  - Class 'E': True Positives=153, False Negatives=0, False Positives=0
+  - Class 'G': True Positives=164, False Negatives=0, False Positives=0
+  - Class 'L': True Positives=33, False Negatives=0, False Positives=0
+Total Misclassifications : 0
+Confusion Matrix (Rows=True, Cols=Pred, Order=['E', 'G', 'L']):
+[[153   0   0]
+ [  0 164   0]
+ [  0   0  33]]
+
+================================================================================
+3. SCIENTIFIC DISCUSSION: WHY ACCURACY ALONE IS INSUFFICIENT
+--------------------------------------------------------------------------------
+In malware family discrimination, high accuracy can often mask dangerous blind spots:
+  (1) Severe Class Imbalance: Class 'L' represents only 9.31% (33 test samples).
+      A naive classifier predicting only 'G' and 'E' would achieve >90% overall accuracy
+      while completely failing to detect family 'L'. Macro F1 and Balanced Accuracy
+      are essential to penalize minority misclassification.
+  (2) False Negatives vs. False Positives: In defensive cybersecurity, a False Negative
+      (allowing ransomware to run undetected) results in irreversible data encryption,
+      whereas a False Positive (flagging benign activity) causes operational friction.
+      Evaluating per-class recall is therefore paramount.
+  (3) Perfect Baseline Score Context: Both Random Forest and XGBoost achieve 1.00
+      accuracy across all partitions. This indicates that the 46 post-execution sandbox
+      summary features provide trivially separable signatures among the 3 families.
+      However, as demonstrated in our leakage analysis, this does NOT demonstrate early-stage
+      detection capability during ongoing execution.
+================================================================================

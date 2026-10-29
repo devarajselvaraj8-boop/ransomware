@@ -1,0 +1,32 @@
+============================================================
+XGBOOST BASELINE CLASSIFICATION REPORT
+============================================================
+Model: XGBClassifier(n_estimators=200, max_depth=6, lr=0.1, random_state=42)
+Train size: 1400 | Test size: 350
+
+Overall Metrics:
+  - Accuracy          : 1.0000
+  - Balanced Accuracy : 1.0000
+  - Precision (Macro) : 1.0000
+  - Precision (Wtd)   : 1.0000
+  - Recall (Macro)    : 1.0000
+  - Recall (Wtd)      : 1.0000
+  - F1-Score (Macro)  : 1.0000
+  - F1-Score (Wtd)    : 1.0000
+
+Detailed Classification Report:
+              precision    recall  f1-score   support
+
+           E     1.0000    1.0000    1.0000       153
+           G     1.0000    1.0000    1.0000       164
+           L     1.0000    1.0000    1.0000        33
+
+    accuracy                         1.0000       350
+   macro avg     1.0000    1.0000    1.0000       350
+weighted avg     1.0000    1.0000    1.0000       350
+
+Confusion Matrix (labels=['E', 'G', 'L']):
+[[153   0   0]
+ [  0 164   0]
+ [  0   0  33]]
+============================================================

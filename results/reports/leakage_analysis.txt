@@ -1,0 +1,366 @@
+================================================================================
+DATA LEAKAGE & FEATURE SEMANTICS INVESTIGATION REPORT
+Project: Early-Stage Ransomware Detection via Dynamic Memory Analysis & RL
+================================================================================
+
+1. EXECUTIVE SUMMARY & INITIAL 100% ACCURACY INVESTIGATION
+--------------------------------------------------------------------------------
+An initial Random Forest baseline achieved 100% across Accuracy, Precision, Recall,
+and F1-Score. In empirical cybersecurity research, perfect classification on dynamic
+behavioral datasets is an immediate warning sign requiring critical validation.
+
+Our investigation reveals THREE primary factors contributing to this outcome:
+  (A) Sandbox-Wide Post-Execution Aggregations: Features represent whole-execution
+      summary counts (e.g. apistats, file_read, file_created, log), capturing the entire
+      lifecycle after the ransomware has already executed and encrypted files.
+  (B) Strict Redundancies & Duplicate Columns: 15 pairs of feature columns are 100%
+      identical (e.g., pe_res_name == filetype, arguments == api == category).
+  (C) Distinct Family Profiles: The 3 malware families (E, G, L) exhibit distinct
+      distributional clusters in their sandbox logs (e.g., file creation counts and
+      API statistics differ by orders of magnitude).
+
+================================================================================
+2. IDENTICAL COLUMN REDUNDANCY ANALYSIS
+--------------------------------------------------------------------------------
+Detected 15 perfectly identical feature pairs across all 1,750 rows:
+  * proc_pid               == file                   (correlation = 1.0000, 100% identical values)
+  * type                   == name                   (correlation = 1.0000, 100% identical values)
+  * type                   == path                   (correlation = 1.0000, 100% identical values)
+  * name                   == path                   (correlation = 1.0000, 100% identical values)
+  * program                == info                   (correlation = 1.0000, 100% identical values)
+  * description            == sign_name              (correlation = 1.0000, 100% identical values)
+  * arguments              == api                    (correlation = 1.0000, 100% identical values)
+  * arguments              == category               (correlation = 1.0000, 100% identical values)
+  * api                    == category               (correlation = 1.0000, 100% identical values)
+  * pe_res_name            == filetype               (correlation = 1.0000, 100% identical values)
+  * pe_sec_name            == entropy                (correlation = 1.0000, 100% identical values)
+  * proc                   == beh_command_line       (correlation = 1.0000, 100% identical values)
+  * proc                   == process_path           (correlation = 1.0000, 100% identical values)
+  * beh_command_line       == process_path           (correlation = 1.0000, 100% identical values)
+  * tree_command_line      == tree_process_name      (correlation = 1.0000, 100% identical values)
+
+Scientific Interpretation of Redundancy:
+  - 'arguments', 'api', and 'category' are completely identical (all 1,750 values match).
+  - 'pe_res_name' and 'filetype' are completely identical.
+  - 'pe_sec_name' and 'entropy' are completely identical.
+  - 'proc_pid' and 'file' are completely identical.
+  - 'proc', 'beh_command_line', and 'process_path' are completely identical.
+  - 'tree_command_line' and 'tree_process_name' are completely identical.
+  - 'program' and 'info' are completely identical.
+  - 'description' and 'sign_name' are completely identical.
+These identical pairs stem from duplicate field mappings or synthetic normalization
+in the original Annex A extraction. They do not provide independent behavioral information.
+
+================================================================================
+3. DETAILED INVESTIGATION OF SPECIFIED SUSPICIOUS FEATURES
+--------------------------------------------------------------------------------
+
+FEATURE: [filetype]
+----------------------------------------
+Semantics Description   : Static PE file metadata: count/identifier of distinct filetypes or embedded resource filetypes.
+Number of Unique Values : 19
+Overall Value Range     : min=0, max=47
+Family Summary Statistics:
+  - Family 'E': mean=      5.20, median=    3.00, std=      6.61, min=     0, max=      26
+  - Family 'G': mean=     15.74, median=   11.00, std=     13.03, min=     1, max=      47
+  - Family 'L': mean=      2.68, median=    1.00, std=      3.18, min=     0, max=       9
+Top 5 Most Frequent Values across Families:
+    Value      0.0 -> E:  141, G:    0, L:   50
+    Value      1.0 -> E:  180, G:   69, L:   50
+    Value      3.0 -> E:  100, G:  123, L:    0
+    Value     11.0 -> E:   46, G:  127, L:    0
+    Value     17.0 -> E:    0, G:  128, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  No direct target bijection (12/19 values are exclusive). Overlaps exist.
+Classification Type     : Static PE Header / Structural Metadata.
+Temporal Quality        : Non-temporal. Known before process execution.
+
+FEATURE: [pe_res_name]
+----------------------------------------
+Semantics Description   : Static PE metadata: count of named PE resources (icons, manifests, dialogs).
+Number of Unique Values : 19
+Overall Value Range     : min=0, max=47
+Family Summary Statistics:
+  - Family 'E': mean=      5.20, median=    3.00, std=      6.61, min=     0, max=      26
+  - Family 'G': mean=     15.74, median=   11.00, std=     13.03, min=     1, max=      47
+  - Family 'L': mean=      2.68, median=    1.00, std=      3.18, min=     0, max=       9
+Top 5 Most Frequent Values across Families:
+    Value      0.0 -> E:  141, G:    0, L:   50
+    Value      1.0 -> E:  180, G:   69, L:   50
+    Value      3.0 -> E:  100, G:  123, L:    0
+    Value     11.0 -> E:   46, G:  127, L:    0
+    Value     17.0 -> E:    0, G:  128, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  No direct target bijection (12/19 values are exclusive). Overlaps exist.
+Classification Type     : Static PE Header / Structural Metadata.
+Temporal Quality        : Non-temporal. Known before process execution.
+
+FEATURE: [category]
+----------------------------------------
+Semantics Description   : Behavioral category summary count (e.g., registry, filesystem, networking signatures triggered).
+Number of Unique Values : 204
+Overall Value Range     : min=0, max=411
+Family Summary Statistics:
+  - Family 'E': mean=     75.37, median=   29.00, std=     87.82, min=     0, max=     411
+  - Family 'G': mean=     11.97, median=    0.00, std=     36.85, min=     0, max=     353
+  - Family 'L': mean=     44.83, median=   24.00, std=     51.18, min=     0, max=     176
+Top 5 Most Frequent Values across Families:
+    Value      0.0 -> E:  125, G:  451, L:   17
+    Value      1.0 -> E:   77, G:   48, L:    0
+    Value      2.0 -> E:   52, G:   24, L:   18
+    Value      3.0 -> E:    1, G:   93, L:    1
+    Value      4.0 -> E:    0, G:   75, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  WARNING: High exclusivity (168/204 unique values occur in exactly one family).
+  This indicates strong family-specific clustering, characteristic of sandbox run summaries.
+Classification Type     : Aggregate Dynamic Behavioral Indicator.
+Temporal Quality        : Full-trace aggregate (end-of-execution summary, not early-stage).
+
+FEATURE: [pe_sec_name]
+----------------------------------------
+Semantics Description   : Static PE structure: count of distinct PE section names (.text, .data, .rsrc, etc.).
+Number of Unique Values : 7
+Overall Value Range     : min=3, max=9
+Family Summary Statistics:
+  - Family 'E': mean=      4.81, median=    4.00, std=      1.49, min=     3, max=       9
+  - Family 'G': mean=      5.36, median=    5.00, std=      1.60, min=     3, max=       8
+  - Family 'L': mean=      4.69, median=    5.00, std=      0.46, min=     4, max=       5
+Complete Crosstab with Target (family):
+    Value    3 -> E:   98, G:  180, L:    0
+    Value    4 -> E:  291, G:    0, L:   50
+    Value    5 -> E:  232, G:  316, L:  113
+    Value    6 -> E:   50, G:   77, L:    0
+    Value    7 -> E:   46, G:  166, L:    0
+    Value    8 -> E:    0, G:   81, L:    0
+    Value    9 -> E:   50, G:    0, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  No direct target bijection (2/7 values are exclusive). Overlaps exist.
+Classification Type     : Static PE Header / Structural Metadata.
+Temporal Quality        : Non-temporal. Known before process execution.
+
+FEATURE: [log]
+----------------------------------------
+Semantics Description   : Sandbox runtime metadata: total size or count of execution log events captured in analysis.
+Number of Unique Values : 436
+Overall Value Range     : min=0, max=14981
+Family Summary Statistics:
+  - Family 'E': mean=   1507.50, median=   40.00, std=   2680.12, min=     0, max=   14981
+  - Family 'G': mean=     56.06, median=   18.00, std=    168.45, min=    14, max=     964
+  - Family 'L': mean=    294.81, median=   22.00, std=    662.67, min=     0, max=    3476
+Top 5 Most Frequent Values across Families:
+    Value     14.0 -> E:    0, G:  218, L:    0
+    Value     17.0 -> E:   64, G:  106, L:   28
+    Value     18.0 -> E:   49, G:   95, L:   13
+    Value     19.0 -> E:   94, G:   89, L:   16
+    Value     25.0 -> E:   20, G:   39, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  WARNING: High exclusivity (414/436 unique values occur in exactly one family).
+  This indicates strong family-specific clustering, characteristic of sandbox run summaries.
+Classification Type     : Sandbox Execution Environment Metadata.
+Temporal Quality        : Post-execution artifact of sandbox reporting engine.
+
+FEATURE: [action]
+----------------------------------------
+Semantics Description   : Sandbox signature flag/indicator: automated classification action taken by sandbox signature engine.
+Number of Unique Values : 2
+Overall Value Range     : min=0, max=1
+Family Summary Statistics:
+  - Family 'E': mean=      0.91, median=    1.00, std=      0.29, min=     0, max=       1
+  - Family 'G': mean=      0.69, median=    1.00, std=      0.46, min=     0, max=       1
+  - Family 'L': mean=      0.96, median=    1.00, std=      0.19, min=     0, max=       1
+Complete Crosstab with Target (family):
+    Value    0 -> E:   71, G:  252, L:    6
+    Value    1 -> E:  696, G:  568, L:  157
+Direct Target Encoding  : Does this feature directly encode the label?
+  No direct target bijection (0/2 values are exclusive). Overlaps exist.
+Classification Type     : Sandbox Execution Environment Metadata.
+Temporal Quality        : Post-execution artifact of sandbox reporting engine.
+
+FEATURE: [apistats]
+----------------------------------------
+Semantics Description   : Dynamic API invocation aggregate count across the entire sandbox detonation run.
+Number of Unique Values : 210
+Overall Value Range     : min=0, max=1671
+Family Summary Statistics:
+  - Family 'E': mean=    114.75, median=   62.00, std=    159.52, min=     0, max=    1671
+  - Family 'G': mean=     44.20, median=    7.00, std=     91.72, min=     0, max=     844
+  - Family 'L': mean=     75.05, median=   20.00, std=     78.76, min=    11, max=     254
+Top 5 Most Frequent Values across Families:
+    Value      0.0 -> E:   56, G:  370, L:    0
+    Value      8.0 -> E:   39, G:    0, L:    0
+    Value     15.0 -> E:   22, G:    7, L:   10
+    Value     23.0 -> E:   18, G:   22, L:    1
+    Value     54.0 -> E:   38, G:    1, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  WARNING: High exclusivity (177/210 unique values occur in exactly one family).
+  This indicates strong family-specific clustering, characteristic of sandbox run summaries.
+Classification Type     : Aggregate Dynamic Behavioral Indicator.
+Temporal Quality        : Full-trace aggregate (end-of-execution summary, not early-stage).
+
+FEATURE: [dll]
+----------------------------------------
+Semantics Description   : Dynamic library count: number of DLL references observed during execution.
+Number of Unique Values : 16
+Overall Value Range     : min=1, max=82
+Family Summary Statistics:
+  - Family 'E': mean=      5.83, median=    4.00, std=      3.74, min=     1, max=      16
+  - Family 'G': mean=     12.63, median=    8.00, std=     16.74, min=     3, max=      82
+  - Family 'L': mean=      7.34, median=    4.00, std=      4.88, min=     3, max=      14
+Top 5 Most Frequent Values across Families:
+    Value      3.0 -> E:   96, G:  117, L:   50
+    Value      4.0 -> E:  189, G:   35, L:   50
+    Value      6.0 -> E:  100, G:   40, L:    0
+    Value      7.0 -> E:   98, G:  177, L:    0
+    Value     10.0 -> E:   84, G:   86, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  No direct target bijection (10/16 values are exclusive). Overlaps exist.
+Classification Type     : Aggregate Dynamic Behavioral Indicator.
+Temporal Quality        : Full-trace aggregate (end-of-execution summary, not early-stage).
+
+FEATURE: [file_created]
+----------------------------------------
+Semantics Description   : Filesystem behavioral count: total files created during dynamic execution.
+Number of Unique Values : 232
+Overall Value Range     : min=0, max=6445
+Family Summary Statistics:
+  - Family 'E': mean=    376.00, median=    1.00, std=    914.06, min=     0, max=    6445
+  - Family 'G': mean=     32.43, median=    0.00, std=    155.26, min=     0, max=     857
+  - Family 'L': mean=      0.49, median=    0.00, std=      0.50, min=     0, max=       1
+Top 5 Most Frequent Values across Families:
+    Value      0.0 -> E:  373, G:  597, L:   83
+    Value      1.0 -> E:   28, G:    0, L:   80
+    Value      5.0 -> E:    7, G:   32, L:    0
+    Value      9.0 -> E:    0, G:   46, L:    0
+    Value     10.0 -> E:    0, G:   64, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  WARNING: High exclusivity (228/232 unique values occur in exactly one family).
+  This indicates strong family-specific clustering, characteristic of sandbox run summaries.
+Classification Type     : Aggregate Dynamic Behavioral Indicator.
+Temporal Quality        : Full-trace aggregate (end-of-execution summary, not early-stage).
+
+FEATURE: [file_read]
+----------------------------------------
+Semantics Description   : Filesystem behavioral count: total files read during dynamic execution.
+Number of Unique Values : 297
+Overall Value Range     : min=0, max=9303
+Family Summary Statistics:
+  - Family 'E': mean=    863.45, median=    2.00, std=   1604.54, min=     0, max=    9303
+  - Family 'G': mean=      3.68, median=    0.00, std=      7.80, min=     0, max=      49
+  - Family 'L': mean=      1.28, median=    0.00, std=      2.47, min=     0, max=      17
+Top 5 Most Frequent Values across Families:
+    Value      0.0 -> E:  326, G:  585, L:  106
+    Value      1.0 -> E:   30, G:   21, L:   27
+    Value      2.0 -> E:   38, G:   12, L:    0
+    Value      3.0 -> E:   10, G:   29, L:    0
+    Value     15.0 -> E:    0, G:   48, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  WARNING: High exclusivity (287/297 unique values occur in exactly one family).
+  This indicates strong family-specific clustering, characteristic of sandbox run summaries.
+Classification Type     : Aggregate Dynamic Behavioral Indicator.
+Temporal Quality        : Full-trace aggregate (end-of-execution summary, not early-stage).
+
+FEATURE: [arguments]
+----------------------------------------
+Semantics Description   : Dynamic execution parameter count: number of command-line arguments / parameter invocations.
+Number of Unique Values : 204
+Overall Value Range     : min=0, max=411
+Family Summary Statistics:
+  - Family 'E': mean=     75.37, median=   29.00, std=     87.82, min=     0, max=     411
+  - Family 'G': mean=     11.97, median=    0.00, std=     36.85, min=     0, max=     353
+  - Family 'L': mean=     44.83, median=   24.00, std=     51.18, min=     0, max=     176
+Top 5 Most Frequent Values across Families:
+    Value      0.0 -> E:  125, G:  451, L:   17
+    Value      1.0 -> E:   77, G:   48, L:    0
+    Value      2.0 -> E:   52, G:   24, L:   18
+    Value      3.0 -> E:    1, G:   93, L:    1
+    Value      4.0 -> E:    0, G:   75, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  WARNING: High exclusivity (168/204 unique values occur in exactly one family).
+  This indicates strong family-specific clustering, characteristic of sandbox run summaries.
+Classification Type     : Aggregate Dynamic Behavioral Indicator.
+Temporal Quality        : Full-trace aggregate (end-of-execution summary, not early-stage).
+
+FEATURE: [dll_loaded]
+----------------------------------------
+Semantics Description   : Dynamic memory/process behavior: count of LoadLibrary/LdrLoadDll calls observed at runtime.
+Number of Unique Values : 81
+Overall Value Range     : min=0, max=122
+Family Summary Statistics:
+  - Family 'E': mean=     20.91, median=   13.00, std=     25.58, min=     0, max=     109
+  - Family 'G': mean=     11.29, median=    0.00, std=     20.44, min=     0, max=     122
+  - Family 'L': mean=      9.65, median=    3.00, std=     11.56, min=     0, max=      44
+Top 5 Most Frequent Values across Families:
+    Value      0.0 -> E:  109, G:  439, L:   20
+    Value      1.0 -> E:   77, G:   54, L:   29
+    Value      2.0 -> E:   24, G:    2, L:   23
+    Value      3.0 -> E:   25, G:   47, L:   11
+    Value     13.0 -> E:   38, G:   18, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  No direct target bijection (52/81 values are exclusive). Overlaps exist.
+Classification Type     : Aggregate Dynamic Behavioral Indicator.
+Temporal Quality        : Full-trace aggregate (end-of-execution summary, not early-stage).
+
+FEATURE: [api]
+----------------------------------------
+Semantics Description   : Dynamic API activity count: total distinct or invoked API call instances.
+Number of Unique Values : 204
+Overall Value Range     : min=0, max=411
+Family Summary Statistics:
+  - Family 'E': mean=     75.37, median=   29.00, std=     87.82, min=     0, max=     411
+  - Family 'G': mean=     11.97, median=    0.00, std=     36.85, min=     0, max=     353
+  - Family 'L': mean=     44.83, median=   24.00, std=     51.18, min=     0, max=     176
+Top 5 Most Frequent Values across Families:
+    Value      0.0 -> E:  125, G:  451, L:   17
+    Value      1.0 -> E:   77, G:   48, L:    0
+    Value      2.0 -> E:   52, G:   24, L:   18
+    Value      3.0 -> E:    1, G:   93, L:    1
+    Value      4.0 -> E:    0, G:   75, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  WARNING: High exclusivity (168/204 unique values occur in exactly one family).
+  This indicates strong family-specific clustering, characteristic of sandbox run summaries.
+Classification Type     : Aggregate Dynamic Behavioral Indicator.
+Temporal Quality        : Full-trace aggregate (end-of-execution summary, not early-stage).
+
+FEATURE: [entropy]
+----------------------------------------
+Semantics Description   : Static/Dynamic memory metric: measure of file/memory section randomness/packing.
+Number of Unique Values : 7
+Overall Value Range     : min=3, max=9
+Family Summary Statistics:
+  - Family 'E': mean=      4.81, median=    4.00, std=      1.49, min=     3, max=       9
+  - Family 'G': mean=      5.36, median=    5.00, std=      1.60, min=     3, max=       8
+  - Family 'L': mean=      4.69, median=    5.00, std=      0.46, min=     4, max=       5
+Complete Crosstab with Target (family):
+    Value    3 -> E:   98, G:  180, L:    0
+    Value    4 -> E:  291, G:    0, L:   50
+    Value    5 -> E:  232, G:  316, L:  113
+    Value    6 -> E:   50, G:   77, L:    0
+    Value    7 -> E:   46, G:  166, L:    0
+    Value    8 -> E:    0, G:   81, L:    0
+    Value    9 -> E:   50, G:    0, L:    0
+Direct Target Encoding  : Does this feature directly encode the label?
+  No direct target bijection (2/7 values are exclusive). Overlaps exist.
+Classification Type     : Static PE Header / Structural Metadata.
+Temporal Quality        : Non-temporal. Known before process execution.
+
+================================================================================
+4. FEATURE RETENTION / REMOVAL SCIENTIFIC RATIONALE
+--------------------------------------------------------------------------------
+Guiding Research Principle:
+  Per project instructions, we do NOT remove features merely because they are highly predictive.
+  We also preserve all 46 features for the baseline model to benchmark against prior runs.
+
+Retention Decision Table:
+  - Retained All 46 Features: Maintained in data/processed/ml_ready_dataset.csv.
+  - Removal for Baselines: 0 additional features removed.
+  - Scientific Rationale:
+      1. The baseline goal is to rigorously reproduce and evaluate tree-based classifiers
+         on the standard dataset under strict stratified split conditions.
+      2. Removing features selectively would introduce researcher bias unless guided by
+         an explicit temporal cutoff.
+      3. The redundancy between identical pairs (e.g. pe_res_name and filetype) splits
+         tree importance but does not bias accuracy in Random Forest or XGBoost.
+      4. In Task 11 ('early_stage_gap.md') and Task 12 ('ppo_design.md'), we document
+         how real early-stage detection requires shifting from whole-trace aggregations
+         to sequential, time-windowed memory and process snapshots.
+================================================================================

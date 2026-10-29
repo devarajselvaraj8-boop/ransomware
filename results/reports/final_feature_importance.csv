@@ -1,0 +1,31 @@
+Feature,Paradigm,Model,Rank,Importance,Role
+filetype,Static Full (Real Sandbox),Random Forest,1,0.0988431078448546,Post-Execution / Global Telemetry
+pe_res_name,Static Full (Real Sandbox),Random Forest,2,0.0909466119767941,Post-Execution / Global Telemetry
+apistats,Static Full (Real Sandbox),Random Forest,3,0.0759583815252609,Post-Execution / Global Telemetry
+dll,Static Full (Real Sandbox),Random Forest,4,0.0724551052468958,Post-Execution / Global Telemetry
+file_created,Static Full (Real Sandbox),Random Forest,5,0.05401676512435,Post-Execution / Global Telemetry
+file_read,Static Full (Real Sandbox),Random Forest,6,0.051845463744015,Post-Execution / Global Telemetry
+arguments,Static Full (Real Sandbox),Random Forest,7,0.046786770970163,Post-Execution / Global Telemetry
+category,Static Full (Real Sandbox),Random Forest,8,0.0417252476385949,Post-Execution / Global Telemetry
+dll_loaded,Static Full (Real Sandbox),Random Forest,9,0.0398097693090004,Post-Execution / Global Telemetry
+api,Static Full (Real Sandbox),Random Forest,10,0.0334426947072434,Post-Execution / Global Telemetry
+dll,Early-Stage Non-Redundant,Random Forest,1,0.1745907146235945,Early Non-Redundant Behavioral
+apistats,Early-Stage Non-Redundant,Random Forest,2,0.1463946400105367,Early Non-Redundant Behavioral
+arguments,Early-Stage Non-Redundant,Random Forest,3,0.1313653405544947,Early Non-Redundant Behavioral
+dll_loaded,Early-Stage Non-Redundant,Random Forest,4,0.0921158564275434,Early Non-Redundant Behavioral
+entropy,Early-Stage Non-Redundant,Random Forest,5,0.0902758194034704,Early Non-Redundant Behavioral
+regkey_opened,Early-Stage Non-Redundant,Random Forest,6,0.0541112775165945,Early Non-Redundant Behavioral
+regkey_read,Early-Stage Non-Redundant,Random Forest,7,0.0505732935351683,Early Non-Redundant Behavioral
+proc,Early-Stage Non-Redundant,Random Forest,8,0.0478717197037156,Early Non-Redundant Behavioral
+command_line,Early-Stage Non-Redundant,Random Forest,9,0.046542834353618,Early Non-Redundant Behavioral
+tree_command_line,Early-Stage Non-Redundant,Random Forest,10,0.0409478177205923,Early Non-Redundant Behavioral
+api_count,Temporal Multi-Window,Random Forest,1,0.0854666666666666,Sequential Delta / Rolling Moment
+private_bytes_rolling_max_3,Temporal Multi-Window,Random Forest,2,0.0763083164300202,Sequential Delta / Rolling Moment
+working_set_bytes_rolling_min_3,Temporal Multi-Window,Random Forest,3,0.075,Sequential Delta / Rolling Moment
+private_bytes,Temporal Multi-Window,Random Forest,4,0.07,Sequential Delta / Rolling Moment
+private_bytes_rolling_min_3,Temporal Multi-Window,Random Forest,5,0.07,Sequential Delta / Rolling Moment
+registry_read_count,Temporal Multi-Window,Random Forest,6,0.06,Sequential Delta / Rolling Moment
+api_count_rolling_min_3,Temporal Multi-Window,Random Forest,7,0.0569805194805194,Sequential Delta / Rolling Moment
+api_count_rolling_mean_3,Temporal Multi-Window,Random Forest,8,0.0569576719576719,Sequential Delta / Rolling Moment
+private_bytes_rolling_mean_3,Temporal Multi-Window,Random Forest,9,0.051875,Sequential Delta / Rolling Moment
+working_set_bytes_rolling_mean_3,Temporal Multi-Window,Random Forest,10,0.0517272727272727,Sequential Delta / Rolling Moment

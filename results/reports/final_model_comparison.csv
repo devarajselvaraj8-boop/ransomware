@@ -1,0 +1,8 @@
+Model,Data Type,Feature Count,Learning Type,Accuracy,Balanced Accuracy,Macro F1,Weighted F1,Minority Recall,False Alert Rate,Average Decision Window
+Static Random Forest,Static Sandbox (Real),46,Supervised (Classification),1.0,1.0,1.0,1.0,1.0,NA,NA
+Static XGBoost,Static Sandbox (Real),46,Supervised (Classification),1.0,1.0,1.0,1.0,1.0,NA,NA
+Early-Stage Random Forest,Feature-Restricted Static (Real),16,Supervised (Classification),1.0,1.0,1.0,1.0,1.0,NA,NA
+Early-Stage XGBoost,Feature-Restricted Static (Real),16,Supervised (Classification),1.0,1.0,1.0,1.0,1.0,NA,NA
+Temporal Random Forest,Multi-Window Temporal (Synthetic Demo),60,Supervised (Classification),1.0,1.0,1.0,1.0,1.0,NA,NA
+Temporal XGBoost,Multi-Window Temporal (Synthetic Demo),60,Supervised (Classification),1.0,1.0,1.0,1.0,1.0,NA,NA
+Temporal PPO,Sequential Observations (Synthetic Demo),60,Reinforcement Learning (Policy),NA,NA,NA,NA,1.0,0.0,3.5

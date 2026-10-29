@@ -1,0 +1,59 @@
+{
+    "experiment_name": "PPO_Synthetic_Temporal_Proxy_Baseline",
+    "dataset": "cleaned_dataset.csv (1750 samples)",
+    "features_count": 16,
+    "sequence_length": 5,
+    "reveal_schedule": [
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+    ],
+    "reward_config": {
+        "alert_true_positive": 10.0,
+        "early_detection_bonus_factor": 2.5,
+        "alert_false_positive": -10.0,
+        "monitoring_cost": -0.1,
+        "suspicious_ransomware_reward": 0.5,
+        "suspicious_benign_penalty": -0.5,
+        "final_missed_ransomware_penalty": -15.0,
+        "final_benign_true_negative_reward": 5.0
+    },
+    "ppo_hyperparameters": {
+        "policy": "MlpPolicy",
+        "learning_rate": 0.0003,
+        "n_steps": 256,
+        "batch_size": 64,
+        "n_epochs": 10,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_range": 0.2,
+        "ent_coef": 0.01,
+        "vf_coef": 0.5,
+        "max_grad_norm": 0.5,
+        "seed": 42,
+        "verbose": 0
+    },
+    "total_timesteps": 50000,
+    "device": "cpu",
+    "test_episodes_evaluated": 350,
+    "metrics": {
+        "test_episodes_count": 350,
+        "alert_count": 350,
+        "alert_rate": 1.0,
+        "correct_alert_count": 350,
+        "correct_alert_rate": 1.0,
+        "false_alert_count": 0,
+        "false_alert_rate": 0.0,
+        "missed_count": 0,
+        "missed_rate": 0.0,
+        "mean_alert_step": 0.0,
+        "median_alert_step": 0.0,
+        "earliest_alert_step": 0,
+        "latest_alert_step": 0,
+        "mean_episode_reward": 20.0,
+        "median_episode_reward": 20.0,
+        "mean_episode_length": 1.0
+    }
+}

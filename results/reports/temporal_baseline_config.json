@@ -1,0 +1,66 @@
+{
+  "experiment": "Temporal Baseline Models (RF & XGBoost)",
+  "date": "2026-10-06",
+  "status": "Pipeline validation on synthetic demonstration telemetry",
+  "random_state": 42,
+  "train_ratio": 0.75,
+  "target_column": "label",
+  "target_classes": [
+    "benign",
+    "ransomware"
+  ],
+  "n_train_samples": 6,
+  "n_test_samples": 2,
+  "train_sample_ids": [
+    "SAMPLE_001",
+    "SAMPLE_002",
+    "SAMPLE_003",
+    "SAMPLE_004",
+    "SAMPLE_006",
+    "SAMPLE_007"
+  ],
+  "test_sample_ids": [
+    "SAMPLE_005",
+    "SAMPLE_008"
+  ],
+  "n_predictive_features": 60,
+  "features_file": "data/processed/temporal_model_features.json",
+  "models": {
+    "RandomForestClassifier": {
+      "n_estimators": 200,
+      "random_state": 42,
+      "class_weight": "balanced",
+      "model_path": "models/temporal/random_forest_temporal.joblib"
+    },
+    "XGBClassifier": {
+      "n_estimators": 200,
+      "random_state": 42,
+      "learning_rate": 0.1,
+      "max_depth": 4,
+      "eval_metric": "logloss",
+      "model_path": "models/temporal/xgboost_temporal.joblib"
+    }
+  },
+  "observation_windows": [
+    {
+      "index": 0,
+      "label": "Window 0 (First Obs / Exp A)"
+    },
+    {
+      "index": 1,
+      "label": "Window 1 (W <= 1)"
+    },
+    {
+      "index": 2,
+      "label": "Window 2 (Early / Exp B)"
+    },
+    {
+      "index": 3,
+      "label": "Window 3 (W <= 3)"
+    },
+    {
+      "index": 4,
+      "label": "Window 4 (Full / Exp C)"
+    }
+  ]
+}

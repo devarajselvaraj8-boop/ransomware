@@ -1,0 +1,49 @@
+{
+    "environment_name": "RansomwareDetectionEnv",
+    "observation_dimension": 16,
+    "feature_names": [
+        "apistats",
+        "dll",
+        "dll_loaded",
+        "arguments",
+        "command_line",
+        "proc",
+        "proc_pid",
+        "type",
+        "program",
+        "children",
+        "tree_command_line",
+        "regkey_opened",
+        "regkey_read",
+        "regkey_written",
+        "wmi_query",
+        "entropy"
+    ],
+    "temporal_config": {
+        "sequence_length": 5,
+        "reveal_schedule": [0.2, 0.4, 0.6, 0.8, 1.0],
+        "mask_value": 0.0,
+        "masking_method": "progressive_feature_reveal_zero_masked"
+    },
+    "action_definitions": {
+        "0": "CONTINUE_MONITORING",
+        "1": "SUSPICIOUS",
+        "2": "RANSOMWARE_ALERT"
+    },
+    "reward_config": {
+        "alert_true_positive": 10.0,
+        "early_detection_bonus_factor": 2.5,
+        "alert_false_positive": -10.0,
+        "monitoring_cost": -0.1,
+        "suspicious_ransomware_reward": 0.5,
+        "suspicious_benign_penalty": -0.5,
+        "final_missed_ransomware_penalty": -15.0,
+        "final_benign_true_negative_reward": 5.0
+    },
+    "seed": 42,
+    "normalization_file_path": "data/processed/ppo_normalization.json",
+    "dataset_path": "data/processed/cleaned_dataset.csv",
+    "split_indices_path": "data/processed/split_indices.json",
+    "classes": ["G", "E", "L"]
+}
+

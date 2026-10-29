@@ -1,0 +1,17 @@
+feature,importance
+tree_command_line,0.15311028
+arguments,0.12290881
+type,0.1228766
+regkey_written,0.11979763
+proc_pid,0.09158407
+apistats,0.069684155
+dll,0.05833238
+command_line,0.05518584
+regkey_opened,0.05402892
+entropy,0.049393628
+dll_loaded,0.04631449
+regkey_read,0.025540361
+children,0.009315545
+program,0.008740832
+wmi_query,0.007792356
+proc,0.005394104

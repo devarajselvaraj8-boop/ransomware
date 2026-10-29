@@ -1,0 +1,8 @@
+Metric,Random Forest,XGBoost,PPO,Directly Comparable?,Methodological Reason
+Classification Accuracy,100.0%,100.0%,N/A (Non-classification output),No,"RF/XGB predict family labels; PPO selects dynamic actions {0, 1, 2}."
+Balanced Accuracy / Macro F1,1.0000,1.0000,N/A,No,Requires multiclass confusion matrix; PPO action space is not multiclass.
+Minority Class Recall (Class L),100.0% (33/33),100.0% (33/33),100.0% (33/33 alerted),Partial (Proxy),RF/XGB correctly identify class L; PPO correctly halts and flags L as ransomware.
+Cumulative Episode Reward,N/A (Supervised loss),N/A (Supervised loss),20.00,No,Reward functions are unique to RL MDP formulation; no supervised equivalent.
+False Alert Rate,0.0%,0.0%,0.0%,Yes,Measures rate of false alarms on benign processes (zero for all models).
+Missed Detection Rate,0.0%,0.0%,0.0%,Yes,Measures rate at which malicious processes evade identification or alert.
+Synthetic Latency / Alert Step,N/A (One-shot full vector),N/A (One-shot full vector),Step 0.00 (Synthetic),No,Classifiers process all features at once; PPO decides dynamically at step t.

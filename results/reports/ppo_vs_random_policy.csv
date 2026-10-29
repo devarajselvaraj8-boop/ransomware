@@ -1,0 +1,6 @@
+metric,Random Policy (100 Ep),Trained PPO Agent (350 Ep),Interpretation
+Mean Episode Reward,13.774,20.0,PPO optimizes return by balancing early alert vs monitoring
+Ransomware Alert Rate,0.89,1.0,Proportion of episodes culminating in RANSOMWARE_ALERT
+False Alert Rate,0.0,0.0,Zero false alarms (all dataset samples are ransomware families)
+Missed Ransomware Rate,0.11,0.0,Proportion of ransomware reaching final timeout without alert
+Average Episode Length,2.51,1.0,Observation steps taken before terminal decision

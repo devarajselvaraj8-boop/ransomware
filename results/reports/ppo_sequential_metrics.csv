@@ -1,0 +1,11 @@
+Metric,Value
+Test Episodes Evaluated,350
+Mean Episode Reward,20.0
+Median Episode Reward,20.0
+Ransomware Alert Rate,100.0%
+Correct Alert Rate,100.0%
+False Alert Rate (Benign),0.0%
+Missed Ransomware Rate,0.0%
+Mean Synthetic Alert Step,0.00
+Median Synthetic Alert Step,0.0
+Mean Episode Length (Steps),1.00

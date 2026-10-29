@@ -1,0 +1,3 @@
+Split Method,Train Samples,Test Samples,Train Observations,Test Observations,Leaked Sample IDs Count,Leakage Rate (%),Scientific Validity
+INCORRECT: Observation-Level (Row Shuffling),8,6,30,10,6,75.0%,FATAL LEAKAGE (Invalid Research)
+CORRECT: Sample-Level Grouped Split,6,2,30,10,0,0.0%,ZERO LEAKAGE (Scientifically Valid)

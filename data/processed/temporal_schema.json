@@ -1,0 +1,220 @@
+{
+  "schema_version": "1.0.0",
+  "project": "Early-Stage Ransomware Detection via Dynamic Memory Analysis and Reinforcement Learning",
+  "description": "Formal specification for temporal and memory telemetry observations capturing progressive execution windows.",
+  "status": "Schema validation and pipeline specification (synthetic demo data only)",
+  "identification_fields": [
+    {
+      "name": "sample_id",
+      "type": "string",
+      "required": true,
+      "description": "Unique session UUID for the sample execution run"
+    },
+    {
+      "name": "process_id",
+      "type": "int64",
+      "required": true,
+      "description": "Operating system process ID (PID)"
+    },
+    {
+      "name": "parent_process_id",
+      "type": "int64",
+      "required": true,
+      "description": "Parent process ID (PPID) in the process execution tree"
+    },
+    {
+      "name": "process_name",
+      "type": "string",
+      "required": true,
+      "description": "Name of the executing binary image"
+    },
+    {
+      "name": "process_path",
+      "type": "string",
+      "required": false,
+      "description": "Full execution path on disk"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": true,
+      "description": "Binary ground-truth classification label (benign or ransomware)"
+    },
+    {
+      "name": "family",
+      "type": "string",
+      "required": true,
+      "description": "Specific malware family (e.g., G, E, L) or benign baseline"
+    }
+  ],
+  "temporal_ordering_fields": [
+    {
+      "name": "timestamp_us",
+      "type": "int64",
+      "required": true,
+      "description": "Microsecond epoch timestamp of observation window close"
+    },
+    {
+      "name": "relative_time_ms",
+      "type": "float64",
+      "required": true,
+      "description": "Elapsed execution time in milliseconds from process start"
+    },
+    {
+      "name": "observation_window",
+      "type": "int32",
+      "required": true,
+      "description": "Sequential discrete observation window index (0, 1, 2, ...)"
+    }
+  ],
+  "behavioral_telemetry_fields": [
+    {
+      "name": "api_count",
+      "type": "int32",
+      "required": true,
+      "description": "Total API invocations in current window"
+    },
+    {
+      "name": "api_rate",
+      "type": "float64",
+      "required": true,
+      "description": "API calls per millisecond in current window"
+    },
+    {
+      "name": "dll_count",
+      "type": "int32",
+      "required": true,
+      "description": "Count of newly loaded DLL modules in window"
+    },
+    {
+      "name": "dll_load_rate",
+      "type": "float64",
+      "required": true,
+      "description": "DLL loads per second in window"
+    },
+    {
+      "name": "registry_read_count",
+      "type": "int32",
+      "required": true,
+      "description": "Registry key query and open count in window"
+    },
+    {
+      "name": "registry_write_count",
+      "type": "int32",
+      "required": true,
+      "description": "Registry value modifications and key creations in window"
+    },
+    {
+      "name": "file_read_count",
+      "type": "int32",
+      "required": true,
+      "description": "File system read operations in window"
+    },
+    {
+      "name": "file_write_count",
+      "type": "int32",
+      "required": true,
+      "description": "File system write/modify operations in window"
+    },
+    {
+      "name": "file_create_count",
+      "type": "int32",
+      "required": true,
+      "description": "New files created in window"
+    },
+    {
+      "name": "directory_activity_count",
+      "type": "int32",
+      "required": true,
+      "description": "Directory enumeration and walk operations in window"
+    }
+  ],
+  "memory_telemetry_fields": [
+    {
+      "name": "entropy",
+      "type": "float64",
+      "required": true,
+      "description": "Average Shannon entropy of written buffers and volatile memory pages"
+    },
+    {
+      "name": "memory_snapshot_id",
+      "type": "string",
+      "required": false,
+      "description": "Unique identifier for associated volatile memory snapshot"
+    },
+    {
+      "name": "working_set_bytes",
+      "type": "int64",
+      "required": true,
+      "description": "Current process physical working set size in bytes"
+    },
+    {
+      "name": "private_bytes",
+      "type": "int64",
+      "required": true,
+      "description": "Committed private virtual memory allocation in bytes"
+    },
+    {
+      "name": "handle_count",
+      "type": "int32",
+      "required": true,
+      "description": "Total open kernel object handles (files, keys, mutexes)"
+    },
+    {
+      "name": "thread_count",
+      "type": "int32",
+      "required": true,
+      "description": "Number of active threads executing in process"
+    },
+    {
+      "name": "network_connection_count",
+      "type": "int32",
+      "required": true,
+      "description": "Active TCP/UDP sockets associated with process ID"
+    },
+    {
+      "name": "loaded_module_count",
+      "type": "int32",
+      "required": true,
+      "description": "Total count of DLL modules mapped into process address space"
+    }
+  ],
+  "derived_temporal_features": {
+    "deltas": [
+      "entropy_delta",
+      "working_set_delta",
+      "private_bytes_delta",
+      "handle_delta",
+      "thread_delta",
+      "process_count_delta",
+      "network_connection_delta",
+      "loaded_modules_delta",
+      "api_count_delta",
+      "file_write_delta",
+      "file_read_delta",
+      "registry_write_delta"
+    ],
+    "rates": [
+      "working_set_rate_bytes_per_sec",
+      "private_bytes_rate_bytes_per_sec",
+      "file_write_rate"
+    ],
+    "cumulative": [
+      "cumulative_api_count",
+      "cumulative_registry_writes",
+      "cumulative_file_writes",
+      "cumulative_directory_activity"
+    ],
+    "rolling_causal_statistics": [
+      "rolling_mean",
+      "rolling_std",
+      "rolling_min",
+      "rolling_max"
+    ]
+  },
+  "pipeline_constraints": {
+    "causality": "All rolling statistics and deltas must only consume observations at or before current time step t (strictly no lookahead).",
+    "splitting": "Splits must be grouped strictly by sample_id so all observation windows of a sample belong to the same partition.",
+    "normalization": "Scaler parameters must be fitted solely on training samples and never on test samples."
+  }
+}

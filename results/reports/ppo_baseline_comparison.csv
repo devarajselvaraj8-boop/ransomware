@@ -1,0 +1,6 @@
+model,paradigm,features_used,accuracy_or_alert_rate,f1_macro,mean_reward,mean_alert_step,comparability_notes
+Random Forest (Full 46),Static Multiclass Classification,46,1.0,1.0,N/A (Supervised),N/A (One-shot),"Static single-shot family classification (E, G, L)"
+XGBoost (Full 46),Static Multiclass Classification,46,1.0,1.0,N/A (Supervised),N/A (One-shot),"Static single-shot family classification (E, G, L)"
+Random Forest (Non-Redundant 16),Static Multiclass Classification,16,1.0,1.0,N/A (Supervised),N/A (One-shot),Static classification on 16 early-stage features
+XGBoost (Non-Redundant 16),Static Multiclass Classification,16,1.0,1.0,N/A (Supervised),N/A (One-shot),Static classification on 16 early-stage features
+PPO Policy (Non-Redundant 16),Sequential Decision-Making (RL),16,1.0,N/A (Sequential Stopping),20.0,0.0,Progressive reveal proxy; decides when to alert vs monitor

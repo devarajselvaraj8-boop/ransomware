@@ -1,0 +1,62 @@
+{
+    "accuracy": 1.0,
+    "balanced_accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "precision_macro": 1.0,
+    "precision_weighted": 1.0,
+    "recall_macro": 1.0,
+    "recall_weighted": 1.0,
+    "f1_macro": 1.0,
+    "f1_weighted": 1.0,
+    "per_class": {
+        "E": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "support": 153
+        },
+        "G": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "support": 164
+        },
+        "L": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "support": 33
+        }
+    },
+    "confusion_matrix": [
+        [
+            153,
+            0,
+            0
+        ],
+        [
+            0,
+            164,
+            0
+        ],
+        [
+            0,
+            0,
+            33
+        ]
+    ],
+    "classes": [
+        "E",
+        "G",
+        "L"
+    ],
+    "classification_report": "              precision    recall  f1-score   support\n\n           E     1.0000    1.0000    1.0000       153\n           G     1.0000    1.0000    1.0000       164\n           L     1.0000    1.0000    1.0000        33\n\n    accuracy                         1.0000       350\n   macro avg     1.0000    1.0000    1.0000       350\nweighted avg     1.0000    1.0000    1.0000       350\n",
+    "model": "Random Forest",
+    "n_estimators": 200,
+    "random_state": 42,
+    "class_weight": "balanced",
+    "train_samples": 1400,
+    "test_samples": 350
+}
